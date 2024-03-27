@@ -40,13 +40,13 @@ class Sx127xDriverBase
 
     virtual void SpiSelect(void) = 0;
     virtual void SpiDeselect(void) = 0;
-    virtual void SpiTransferByte(uint8_t* byteout, uint8_t* bytein) = 0;
+    virtual void SpiTransferBytes(uint8_t* byteout, uint8_t* bytein, uint8_t len) = 0;
 
     // spi methods
 
     void SpiRead(uint8_t* datain, uint8_t len);
     void SpiWrite(uint8_t* dataout, uint8_t len);
-    void SpiTransfer(uint8_t dataout, uint8_t* datain) { SpiTransferByte(&dataout, datain); }
+    //void SpiTransfer(uint8_t dataout, uint8_t* datain) { SpiTransferByte(&dataout, datain); }
     void SpiRead(uint8_t* datain) { SpiRead(datain, 1); }
     void SpiWrite(uint8_t dataout) { SpiWrite(&dataout, 1); }
 

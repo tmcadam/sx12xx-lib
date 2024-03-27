@@ -22,25 +22,13 @@ Sx127xDriverBase::Sx127xDriverBase()
 
 void Sx127xDriverBase::SpiRead(uint8_t* datain, uint8_t len)
 {
-uint8_t dummy = 0; // NOP
-
-    while (len) {
-        SpiTransferByte(&dummy, datain);
-        datain++;
-        len--;
-    }
+    SpiTransferBytes(nullptr, datain, len);
 }
 
 
 void Sx127xDriverBase::SpiWrite(uint8_t* dataout, uint8_t len)
 {
-uint8_t dummy;
-
-    while (len) {
-        SpiTransferByte(dataout, &dummy);
-        dataout++;
-        len--;
-    }
+    SpiTransferBytes(dataout, nullptr, len);
 }
 
 
@@ -278,7 +266,7 @@ void Sx127xDriverBase::ClearIrqStatus(uint8_t IrqMask)
 
 
 uint16_t Sx127xDriverBase::GetAndClearIrqStatus(uint16_t IrqMask)
-{
+{ 
     uint16_t irq_status = GetIrqStatus();
 
     ClearIrqStatus(IrqMask);
