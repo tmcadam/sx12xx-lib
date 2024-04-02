@@ -41,6 +41,7 @@ class Sx127xDriverBase
     virtual void SpiSelect(void) = 0;
     virtual void SpiDeselect(void) = 0;
     virtual void SpiTransferByte(uint8_t* byteout, uint8_t* bytein) = 0;
+    virtual void SpiTransferBytes(uint8_t* byteout, uint8_t* bytein, uint8_t len) = 0;
 
     // spi methods
 
@@ -614,25 +615,4 @@ typedef enum {
 
 
 #endif // SX127X_LIB_H
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

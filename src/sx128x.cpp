@@ -46,7 +46,8 @@ void Sx128xDriverBase::WriteCommand(uint8_t opcode, uint8_t* data, uint8_t len)
     WaitOnBusy();
     SpiSelect();
     SpiTransfer(opcode, &_status);
-    if (len > 0) SpiWrite(data, len);
+    //if (len > 0) SpiWrite(data, len);
+    if (len > 0) SpiTransferBytes(data, nullptr, len);
     SpiDeselect();
     SetDelay(12); // semtech driver says 12 us
 }
@@ -58,7 +59,8 @@ void Sx128xDriverBase::ReadCommand(uint8_t opcode, uint8_t* data, uint8_t len)
     SpiSelect();
     SpiTransfer(opcode, &_status);
     SpiWrite(0); // NOP
-    SpiRead(data, len);
+    //SpiRead(data, len);
+    SpiTransferBytes(nullptr, data, len);
     SpiDeselect();
     // no delay according to semtech driver
 }
@@ -71,7 +73,8 @@ void Sx128xDriverBase::WriteRegister(uint16_t adr, uint8_t* data, uint8_t len)
     SpiTransfer(SX1280_CMD_WRITE_REGISTER, &_status);
     SpiWrite((adr & 0xFF00) >> 8);
     SpiWrite(adr & 0x00FF);
-    SpiWrite(data, len);
+    //SpiWrite(data, len);
+    SpiTransferBytes(data, nullptr, len);
     SpiDeselect();
     SetDelay(12); // semtech driver says 12 us
 }
@@ -85,7 +88,8 @@ void Sx128xDriverBase::ReadRegister(uint16_t adr, uint8_t* data, uint8_t len)
     SpiWrite((adr & 0xFF00) >> 8);
     SpiWrite(adr & 0x00FF);
     SpiWrite(0); // NOP
-    SpiRead(data, len);
+    //SpiRead(data, len);
+    SpiTransferBytes(nullptr, data, len);
     SpiDeselect();
     // no delay according to semtech driver
 }
@@ -97,7 +101,8 @@ void Sx128xDriverBase::WriteBuffer(uint8_t offset, uint8_t* data, uint8_t len)
     SpiSelect();
     SpiTransfer(SX1280_CMD_WRITE_BUFFER, &_status);
     SpiWrite(offset);
-    SpiWrite(data, len);
+    //SpiWrite(data, len);
+    SpiTransferBytes(data, nullptr, len);
     SpiDeselect();
     SetDelay(12); // semtech driver says 12 us
 }
@@ -110,7 +115,8 @@ void Sx128xDriverBase::ReadBuffer(uint8_t offset, uint8_t* data, uint8_t len)
     SpiTransfer(SX1280_CMD_READ_BUFFER, &_status);
     SpiWrite(offset);
     SpiWrite(0); // NOP
-    SpiRead(data, len);
+    //SpiRead(data, len);
+    SpiTransferBytes(nullptr, data, len);
     SpiDeselect();
     // no delay according to semtech driver
 }
@@ -518,4 +524,3 @@ uint8_t status[5];
 
     *RssiSync = -(int16_t)(status[0] / 2);
 }
-
